@@ -1,0 +1,38 @@
+# version: '3.8'
+# services:
+#   db:
+#     image: mysql:8.0
+#     restart: always
+#     environment:
+#       MYSQL_DATABASE: 'recetas_cocina_db'
+#       MYSQL_USER: 'root'
+#       MYSQL_PASSWORD: '260922'
+#       MYSQL_ROOT_PASSWORD: '260922'
+#     ports:
+#       - '3308:3306'
+
+# version: '3.8'
+# services:
+#   h2:
+#     image: h2database/h2:latest
+#     restart: always
+#     environment:
+#       H2_DATABASE: 'recetas_cocina_db'
+#       H2_USER: 'Nico' 'root'
+#       H2_CONSOLE_PASSWORD: '1234' '260922'
+#       H2_ROOT_PASSWORD: '1234' '260922'
+#     ports:
+#       - '8082:8082'
+
+# saque del video
+services:
+  mysql:
+    # container_name: 'guide-mysql'
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=recetas_db'
+      - 'MYSQL_PASSWORD=260922'
+      - 'MYSQL_ROOT_PASSWORD=260922'
+      - 'MYSQL_USER=root'
+    ports:
+      - '3308:3306'
