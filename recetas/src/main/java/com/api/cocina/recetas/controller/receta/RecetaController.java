@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.cocina.recetas.domain.enums.Dificultad;
+import com.api.cocina.recetas.dto.ingredient.IngredienteDto;
 import com.api.cocina.recetas.dto.recipe.RecetaDto;
 import com.api.cocina.recetas.exceptions.RecetaNoEncontradaException;
 import com.api.cocina.recetas.service.receta.RecetaService;
 
 @RestController
-@RequestMapping("/api/recetas")
+@RequestMapping("/api/v1/recetas")
 public class RecetaController {
     
     private final RecetaService recetaService;
@@ -29,7 +31,7 @@ public class RecetaController {
         this.recetaService = recetaService;
     }
     
-    @GetMapping("/{id}")
+    @GetMapping("/obtenerReceta/{id}")
     public ResponseEntity<RecetaDto> obtenerReceta(@PathVariable Long id) {
         try {
             RecetaDto receta = recetaService.obtenerReceta(id);
@@ -51,7 +53,7 @@ public class RecetaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(creada);
     }
     
-    @PutMapping("/{id}")
+    @PutMapping("/actualizarReceta/{id}")
     public ResponseEntity<RecetaDto> actualizarReceta(@PathVariable Long id, @RequestBody RecetaDto receta) {
         try {
             RecetaDto actualizada = recetaService.actualizarReceta(id, receta);
@@ -61,7 +63,7 @@ public class RecetaController {
         }
     }
     
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/eliminarReceta/{id}")
     public ResponseEntity<Void> eliminarReceta(@PathVariable Long id) {
         try {
             recetaService.eliminarReceta(id);
@@ -70,4 +72,23 @@ public class RecetaController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/{id}/ingredientes")
+    public ResponseEntity<List<IngredienteDto>> obtenerIngredientesDeReceta(@PathVariable Long id) {
+        List<IngredienteDto> ingredientes = recetaService.obtenerIngredientesDeReceta(id);
+        return ResponseEntity.ok(ingredientes);
+    }
+
+    @GetMapping("/dificultad/{dificultad}")
+    public ResponseEntity<List<RecetaDto>> buscarRecetasPorDificultad(@PathVariable Dificultad dificultad) {
+        List<RecetaDto> recetas = recetaService.buscarRecetasPorDificultad(dificultad);
+        return ResponseEntity.ok(recetas);
+    }
+
+    @GetMapping("/{id}/tiempo-preparacion")
+    public ResponseEntity<Integer> obtenerTiempoPreparacionDeReceta(@PathVariable Long id) {
+        Integer tiempoPreparacion = recetaService.obtenerTiempoPreparacionDeReceta(id);
+        return ResponseEntity.ok(tiempoPreparacion);
+    }
+
 }

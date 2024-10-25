@@ -1,5 +1,6 @@
 package com.api.cocina.recetas.service.receta.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.cocina.recetas.domain.Categoria;
+import com.api.cocina.recetas.domain.Pasos;
 import com.api.cocina.recetas.domain.Receta;
+import com.api.cocina.recetas.domain.enums.Dificultad;
+import com.api.cocina.recetas.dto.ingredient.IngredienteDto;
 import com.api.cocina.recetas.dto.recipe.RecetaDto;
 import com.api.cocina.recetas.exceptions.RecetaNoEncontradaException;
+import com.api.cocina.recetas.mappers.ingrediente.IngredienteMapper;
 import com.api.cocina.recetas.mappers.receta.RecetaMapper;
 import com.api.cocina.recetas.repository.receta.RecetaRepository;
 import com.api.cocina.recetas.service.receta.RecetaService;
@@ -20,11 +25,13 @@ public class RecetaServiceImpl implements RecetaService {
     
     private final RecetaMapper recetaMapper;
     private final RecetaRepository recetaRepository;
+    private final IngredienteMapper ingredienteMapper;
 
     @Autowired
-    public RecetaServiceImpl(RecetaMapper recetaMapper, RecetaRepository recetaRepository){
+    public RecetaServiceImpl(RecetaMapper recetaMapper, RecetaRepository recetaRepository, IngredienteMapper ingredienteMapper){
         this.recetaMapper = recetaMapper;
         this.recetaRepository = recetaRepository;
+        this.ingredienteMapper = ingredienteMapper;
     }
     
     @Override
@@ -61,5 +68,29 @@ public class RecetaServiceImpl implements RecetaService {
     public void eliminarReceta(Long id) throws RecetaNoEncontradaException {
         Receta receta = recetaRepository.findById(id).orElseThrow(() -> new RecetaNoEncontradaException("Receta no encontrada"));
         recetaRepository.delete(receta);
+    }
+
+    @Override
+    public List<IngredienteDto> obtenerIngredientesDeReceta(Long id) {
+        Receta receta = recetaRepository.findById(id).orElseThrow();
+        List<IngredienteDto> ingredientes = new ArrayList<>();
+        receta.getPasos().forEach(paso -> {
+            paso.getIngredientes().forEach(ingrediente -> {
+                ingredientes.add(ingredienteMapper.toDTO(ingrediente));
+            });
+        });
+        return ingredientes;
+    }
+
+    @Override
+    public List<RecetaDto> buscarRecetasPorDificultad(Dificultad dificultad) {
+        List<Receta> recetas = recetaRepository.findByDificultad(dificultad);
+        return recetas.stream().map(recetaMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public Integer obtenerTiempoPreparacionDeReceta(Long id) {
+        Receta receta = recetaRepository.findById(id).orElseThrow();
+        return receta.getPasos().stream().mapToInt(Pasos::getTiempoEstimado).sum();
     }
 }

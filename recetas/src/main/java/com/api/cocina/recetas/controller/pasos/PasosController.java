@@ -19,7 +19,7 @@ import com.api.cocina.recetas.exceptions.PasoNoEncontradoException;
 import com.api.cocina.recetas.service.pasos.PasosService;
 
 @RestController
-@RequestMapping("/api/pasos")
+@RequestMapping("/api/v1/pasos")
 public class PasosController {
     
     private final PasosService pasosService;
@@ -41,7 +41,7 @@ public class PasosController {
         return ResponseEntity.ok(pasos);
     }
     
-    @GetMapping("/{id}")
+    @GetMapping("/obtenerPaso/{id}")
     public ResponseEntity<PasosDto> obtenerPaso(@PathVariable Long id) {
         try {
             PasosDto paso = pasosService.obtenerPaso(id);
@@ -51,7 +51,7 @@ public class PasosController {
         }
     }
     
-    @PutMapping("/{id}")
+    @PutMapping("/actualizarPaso/{id}")
     public ResponseEntity<PasosDto> actualizarPaso(@PathVariable Long id, @RequestBody PasosDto pasosDto) {
         try {
             PasosDto actualizado = pasosService.actualizarPaso(id, pasosDto);
@@ -61,7 +61,7 @@ public class PasosController {
         }
     }
     
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/eliminarPaso/{id}")
     public ResponseEntity<Void> eliminarPaso(@PathVariable Long id) {
         try {
             pasosService.eliminarPaso(id);

@@ -19,7 +19,7 @@ import com.api.cocina.recetas.exceptions.IngredienteNoEncontradoException;
 import com.api.cocina.recetas.service.ingrediente.IngredienteService;
 
 @RestController
-@RequestMapping("/api/ingredientes")
+@RequestMapping("/api/v1/ingredientes")
 public class IngredienteController {
     
     private final IngredienteService ingredienteService;
@@ -41,7 +41,7 @@ public class IngredienteController {
         return ResponseEntity.ok(ingredientes);
     }
     
-    @GetMapping("/{id}")
+    @GetMapping("/obtener/{id}")
     public ResponseEntity<IngredienteDto> obtenerIngrediente(@PathVariable Long id) {
         try {
             IngredienteDto ingrediente = ingredienteService.obtenerIngrediente(id);
@@ -51,7 +51,7 @@ public class IngredienteController {
         }
     }
     
-    @PutMapping("/{id}")
+    @PutMapping("/actualizar/{id}")
     public ResponseEntity<IngredienteDto> actualizarIngrediente(@PathVariable Long id, @RequestBody IngredienteDto ingredienteDto) {
         try {
             IngredienteDto actualizado = ingredienteService.actualizarIngrediente(id, ingredienteDto);
@@ -61,7 +61,7 @@ public class IngredienteController {
         }
     }
     
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<Void> eliminarIngrediente(@PathVariable Long id) {
         try {
             ingredienteService.eliminarIngrediente(id);
