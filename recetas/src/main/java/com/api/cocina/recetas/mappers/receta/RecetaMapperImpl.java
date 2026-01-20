@@ -25,12 +25,14 @@ public class RecetaMapperImpl implements RecetaMapper {
         Categoria categoria = new Categoria();
         categoria.setId(recetaDto.categoria());
 
-        return new Receta(
-            recetaDto.id(),
-            recetaDto.nombre(),
-            recetaDto.descripcion(),
-            recetaDto.dificultad(),
-            categoria
-        );
+        Receta receta = new Receta();
+        receta.setId(recetaDto.id());
+        receta.setNombre(recetaDto.nombre());
+        receta.setDescripcion(recetaDto.descripcion());
+        receta.setDificultad(recetaDto.dificultad());
+        receta.setCategoria(categoria);
+
+        return receta;
     }
+
 }
