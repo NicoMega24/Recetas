@@ -1,13 +1,12 @@
 package com.api.cocina.recetas.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,18 +29,12 @@ public class Ingrediente {
 
     private String descripcion;
 
-    @ManyToMany
-    @JoinTable(
-        name = "pasos_ingrediente",
-        joinColumns = @JoinColumn(name = "ingrediente_id"),
-        inverseJoinColumns = @JoinColumn(name = "pasos_id")
-    )
-    private List<Pasos> pasos;
 
-    public Ingrediente(Long id, String nombre, String descripcion) {
-        this.id = id;
+    @ManyToMany(mappedBy = "ingredientes")
+    private List<Pasos> pasos = new ArrayList<>();
+
+    public Ingrediente(String nombre, String descripcion) {
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
-
 }

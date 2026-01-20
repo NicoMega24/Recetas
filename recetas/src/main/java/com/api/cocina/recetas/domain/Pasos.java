@@ -37,23 +37,20 @@ public class Pasos {
     @ManyToOne
     @JoinColumn(name = "receta_id")
     private Receta receta;
+
     @ManyToMany
     @JoinTable(
         name = "pasos_ingrediente",
         joinColumns = @JoinColumn(name = "pasos_id"),
         inverseJoinColumns = @JoinColumn(name = "ingrediente_id")
     )
+    private List<Ingrediente> ingredientes = new ArrayList<>();
 
-    private List<Ingrediente> ingredientes;
 
-    public Pasos(Long id, String descripcion, Integer tiempoEstimado, Boolean opcional, Receta receta) {
-        this.id = id;
+    public Pasos(String descripcion, Integer tiempoEstimado, Boolean opcional, Receta receta) {
         this.descripcion = descripcion;
         this.tiempoEstimado = tiempoEstimado;
         this.opcional = opcional;
         this.receta = receta;
-        this.ingredientes = new ArrayList<>();
     }
-
-
 }

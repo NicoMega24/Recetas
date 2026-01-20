@@ -5,8 +5,11 @@ import java.util.List;
 
 import com.api.cocina.recetas.domain.enums.Dificultad;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,23 +39,24 @@ public class Receta {
     @Column(length = 5000)
     private String descripcion;
 
+    @Enumerated(EnumType.STRING)
     private Dificultad dificultad;
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
-    @OneToMany(mappedBy = "receta")
-    private List<Pasos> pasos;
+    @OneToMany(
+        mappedBy = "receta",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    private List<Pasos> pasos = new ArrayList<>();
 
-     public Receta(Long id, String nombre, String descripcion, Dificultad dificultad, Categoria categoria) {
-        this.id = id;
+     public Receta(String nombre, String descripcion, Dificultad dificultad, Categoria categoria) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.dificultad = dificultad;
         this.categoria = categoria;
-        this.pasos = new ArrayList<>();
     }
-
 }
-

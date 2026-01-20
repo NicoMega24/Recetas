@@ -1,7 +1,9 @@
 package com.api.cocina.recetas.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,7 +28,11 @@ public class Categoria {
     
     private String nombre;
 
-    @OneToMany(mappedBy = "categoria")
-    private List<Receta> recetas;
+    @OneToMany(
+        mappedBy = "categoria",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    private List<Receta> recetas = new ArrayList<>();
 
 }
