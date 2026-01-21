@@ -2,7 +2,6 @@ package com.api.cocina.recetas.controller.pasos;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,59 +14,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.cocina.recetas.dto.steps.PasosDto;
-import com.api.cocina.recetas.exceptions.PasoNoEncontradoException;
 import com.api.cocina.recetas.service.pasos.PasosService;
 
 @RestController
 @RequestMapping("/api/v1/pasos")
 public class PasosController {
-    
+
     private final PasosService pasosService;
-    
-    @Autowired
+
     public PasosController(PasosService pasosService) {
         this.pasosService = pasosService;
     }
-    
+
     @PostMapping
-    public ResponseEntity<PasosDto> crearPaso(@RequestBody PasosDto pasosDto) {
-        PasosDto creado = pasosService.crearPaso(pasosDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(creado);
-    }
-    
-    @GetMapping("/receta/{recetaId}")
-    public List<PasosDto> listarPasosPorReceta(@PathVariable Long recetaId) {
-        return pasosService.listarPasosPorReceta(recetaId);
+    public ResponseEntity<PasosDto> crear(@RequestBody PasosDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(pasosService.crearPaso(dto));
     }
 
-    
-    @GetMapping("/obtenerPaso/{id}")
-    public ResponseEntity<PasosDto> obtenerPaso(@PathVariable Long id) {
-        try {
-            PasosDto paso = pasosService.obtenerPaso(id);
-            return ResponseEntity.ok(paso);
-        } catch (PasoNoEncontradoException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/receta/{recetaId}")
+    public ResponseEntity<List<PasosDto>> listarPorReceta(@PathVariable Long recetaId) {
+        return ResponseEntity.ok(pasosService.listarPasosPorReceta(recetaId));
     }
-    
-    @PutMapping("/actualizarPaso/{id}")
-    public ResponseEntity<PasosDto> actualizarPaso(@PathVariable Long id, @RequestBody PasosDto pasosDto) {
-        try {
-            PasosDto actualizado = pasosService.actualizarPaso(id, pasosDto);
-            return ResponseEntity.ok(actualizado);
-        } catch (PasoNoEncontradoException e) {
-            return ResponseEntity.notFound().build();
-        }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PasosDto> obtener(@PathVariable Long id) {
+        return ResponseEntity.ok(pasosService.obtenerPaso(id));
     }
-    
-    @DeleteMapping("/eliminarPaso/{id}")
-    public ResponseEntity<Void> eliminarPaso(@PathVariable Long id) {
-        try {
-            pasosService.eliminarPaso(id);
-            return ResponseEntity.noContent().build();
-        } catch (PasoNoEncontradoException e) {
-            return ResponseEntity.notFound().build();
-        }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PasosDto> actualizar(
+            @PathVariable Long id,
+            @RequestBody PasosDto dto) {
+        return ResponseEntity.ok(pasosService.actualizarPaso(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        pasosService.eliminarPaso(id);
+        return ResponseEntity.noContent().build();
     }
 }
