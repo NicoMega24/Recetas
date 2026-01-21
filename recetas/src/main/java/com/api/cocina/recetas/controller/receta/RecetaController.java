@@ -80,8 +80,8 @@ public class RecetaController {
     }
 
     @GetMapping("/dificultad/{dificultad}")
-    public ResponseEntity<List<RecetaDto>> buscarRecetasPorDificultad(@PathVariable Dificultad dificultad) {
-        List<RecetaDto> recetas = recetaService.buscarRecetasPorDificultad(dificultad);
+    public ResponseEntity<List<RecetaDto>> listarRecetasPorDificultad(@PathVariable Dificultad dificultad) {
+        List<RecetaDto> recetas = recetaService.listarRecetasPorDificultad(dificultad);
         return ResponseEntity.ok(recetas);
     }
 

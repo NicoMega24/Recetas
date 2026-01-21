@@ -53,44 +53,57 @@ public class RecetaServiceImpl implements RecetaService {
     }
     
     @Override
-    public RecetaDto actualizarReceta(Long id, RecetaDto receta) throws RecetaNoEncontradaException {
-        Receta existente = recetaRepository.findById(id).orElseThrow(() -> new RecetaNoEncontradaException("Receta no encontrada"));
-        existente.setNombre(receta.nombre());
-        existente.setDescripcion(receta.descripcion());
-        existente.setDificultad(receta.dificultad());
+    public RecetaDto actualizarReceta(Long id, RecetaDto recetadto) {
+        Receta existente = recetaRepository.findById(id)
+            .orElseThrow(() -> new RecetaNoEncontradaException("Receta no encontrada"));
+
+        existente.setNombre(recetadto.nombre());
+        existente.setDescripcion(recetadto.descripcion());
+        existente.setDificultad(recetadto.dificultad());
+
         Categoria categoria = new Categoria();
-        categoria.setId(receta.categoria());
+        categoria.setId(recetadto.categoria());
+        existente.setCategoria(categoria);
+
         Receta actualizada = recetaRepository.save(existente);
         return recetaMapper.toDTO(actualizada);
     }
+
     
     @Override
-    public void eliminarReceta(Long id) throws RecetaNoEncontradaException {
+    public void eliminarReceta(Long id) {
         Receta receta = recetaRepository.findById(id).orElseThrow(() -> new RecetaNoEncontradaException("Receta no encontrada"));
         recetaRepository.delete(receta);
     }
 
     @Override
     public List<IngredienteDto> obtenerIngredientesDeReceta(Long id) {
-        Receta receta = recetaRepository.findById(id).orElseThrow();
+        Receta receta = recetaRepository.findById(id).orElseThrow(() -> new RecetaNoEncontradaException("Receta no encontrada"));
+
         List<IngredienteDto> ingredientes = new ArrayList<>();
         receta.getPasos().forEach(paso -> {
             paso.getIngredientes().forEach(ingrediente -> {
                 ingredientes.add(ingredienteMapper.toDTO(ingrediente));
             });
         });
-        return ingredientes;
+        return receta.getPasos().stream()
+            .flatMap(paso -> paso.getIngredientes().stream())
+            .map(ingredienteMapper::toDTO)
+            .distinct()
+            .collect(Collectors.toList());
+            
     }
 
     @Override
-    public List<RecetaDto> buscarRecetasPorDificultad(Dificultad dificultad) {
+    public List<RecetaDto> listarRecetasPorDificultad(Dificultad dificultad) {
         List<Receta> recetas = recetaRepository.findByDificultad(dificultad);
         return recetas.stream().map(recetaMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
     public Integer obtenerTiempoPreparacionDeReceta(Long id) {
-        Receta receta = recetaRepository.findById(id).orElseThrow();
+        Receta receta = recetaRepository.findById(id).orElseThrow(() -> new RecetaNoEncontradaException("Receta no encontrada"));
+
         return receta.getPasos().stream().mapToInt(Pasos::getTiempoEstimado).sum();
     }
 }
