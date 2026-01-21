@@ -35,11 +35,11 @@ public class PasosController {
         return ResponseEntity.status(HttpStatus.CREATED).body(creado);
     }
     
-    @GetMapping
-    public ResponseEntity<List<PasosDto>> listarPasos() {
-        List<PasosDto> pasos = pasosService.listarPasos();
-        return ResponseEntity.ok(pasos);
+    @GetMapping("/receta/{recetaId}")
+    public List<PasosDto> listarPasosPorReceta(@PathVariable Long recetaId) {
+        return pasosService.listarPasosPorReceta(recetaId);
     }
+
     
     @GetMapping("/obtenerPaso/{id}")
     public ResponseEntity<PasosDto> obtenerPaso(@PathVariable Long id) {

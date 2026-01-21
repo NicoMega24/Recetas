@@ -33,10 +33,13 @@ public class PasosServiceImpl implements PasosService {
     }
     
     @Override
-    public List<PasosDto> listarPasos() {
-        List<Pasos> pasos = pasosRepository.findAll();
-        return pasos.stream().map(pasosMapper::toDTO).collect(Collectors.toList());
+    public List<PasosDto> listarPasosPorReceta(Long recetaId) {
+        List<Pasos> pasos = pasosRepository.findByRecetaId(recetaId);
+        return pasos.stream()
+            .map(pasosMapper::toDTO)
+            .collect(Collectors.toList());
     }
+
     
     @Override
     public PasosDto obtenerPaso(Long id) {

@@ -6,7 +6,7 @@ import com.api.cocina.recetas.dto.steps.PasosDto;
 
 public interface PasosService {
     PasosDto crearPaso(PasosDto pasosDto);
-    List<PasosDto> listarPasos();
+    List<PasosDto> listarPasosPorReceta(Long recetaId);
     PasosDto obtenerPaso(Long id);
     PasosDto actualizarPaso(Long id, PasosDto pasosDto);
     void eliminarPaso(Long id);
