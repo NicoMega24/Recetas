@@ -1,7 +1,6 @@
 package com.api.cocina.recetas.mappers.pasos;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -24,11 +23,10 @@ public class PasosMapper {
                 pasos.getTiempoEstimado(),
                 pasos.getOpcional(),
                 pasos.getReceta() != null ? pasos.getReceta().getId() : null,
-                pasos.getIngredientes() != null
-                        ? pasos.getIngredientes().stream()
-                            .map(Ingrediente::getId)
-                            .collect(Collectors.toList())
-                        : List.of()
+                pasos.getIngredientes()
+                        .stream()
+                        .map(Ingrediente::getId)
+                        .toList()
         );
     }
 
@@ -37,29 +35,31 @@ public class PasosMapper {
             return null;
         }
 
-        Receta receta = null;
+        Pasos pasos = new Pasos();
+        pasos.setId(dto.id());
+        pasos.setDescripcion(dto.descripcion());
+        pasos.setTiempoEstimado(dto.tiempoEstimado());
+        pasos.setOpcional(dto.opcional());
+
         if (dto.receta() != null) {
-            receta = new Receta();
+            Receta receta = new Receta();
             receta.setId(dto.receta());
+            pasos.setReceta(receta);
         }
 
-        List<Ingrediente> ingredientes = dto.ingredientes() != null
-                ? dto.ingredientes().stream()
+        if (dto.ingredientes() != null) {
+            List<Ingrediente> ingredientes = dto.ingredientes()
+                    .stream()
                     .map(id -> {
                         Ingrediente ingrediente = new Ingrediente();
                         ingrediente.setId(id);
                         return ingrediente;
                     })
-                    .collect(Collectors.toList())
-                : List.of();
+                    .toList();
 
-        return new Pasos(
-                dto.id(),
-                dto.descripcion(),
-                dto.tiempoEstimado(),
-                dto.opcional(),
-                receta,
-                ingredientes
-        );
+            pasos.setIngredientes(ingredientes);
+        }
+
+        return pasos;
     }
 }

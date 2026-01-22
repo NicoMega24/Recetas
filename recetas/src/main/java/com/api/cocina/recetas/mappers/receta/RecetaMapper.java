@@ -28,18 +28,17 @@ public class RecetaMapper {
             return null;
         }
 
-        Categoria categoria = null;
-        if (dto.categoria() != null) {
-            categoria = new Categoria();
-            categoria.setId(dto.categoria());
-        }
-
         Receta receta = new Receta();
         receta.setId(dto.id());
         receta.setNombre(dto.nombre());
         receta.setDescripcion(dto.descripcion());
         receta.setDificultad(dto.dificultad());
-        receta.setCategoria(categoria);
+
+        if (dto.categoria() != null) {
+            Categoria categoria = new Categoria();
+            categoria.setId(dto.categoria());
+            receta.setCategoria(categoria);
+        }
 
         return receta;
     }

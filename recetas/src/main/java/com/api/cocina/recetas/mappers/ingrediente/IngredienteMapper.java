@@ -5,8 +5,6 @@ import org.springframework.stereotype.Component;
 import com.api.cocina.recetas.domain.Ingrediente;
 import com.api.cocina.recetas.dto.ingredient.IngredienteDto;
 
-import java.util.ArrayList;
-
 @Component
 public class IngredienteMapper {
 
@@ -27,11 +25,11 @@ public class IngredienteMapper {
             return null;
         }
 
-        return new Ingrediente(
-                dto.id(),
-                dto.nombre(),
-                dto.descripcion(),
-                new ArrayList<>()
-        );
+        Ingrediente ingrediente = new Ingrediente();
+        ingrediente.setId(dto.id());
+        ingrediente.setNombre(dto.nombre());
+        ingrediente.setDescripcion(dto.descripcion());
+        return ingrediente;
     }
+
 }
