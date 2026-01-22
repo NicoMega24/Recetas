@@ -1,7 +1,10 @@
 package com.api.cocina.recetas.exceptions;
 
+import org.springframework.http.HttpStatus;
+
 public class RecetaNoEncontradaException extends ApiException {
-    public RecetaNoEncontradaException(String idRecurso) {
-        super(String.format("La receta (id=%s) no existe", idRecurso));
+
+    public RecetaNoEncontradaException(Long id) {
+        super("La receta (id=" + id + ") no existe", HttpStatus.NOT_FOUND);
     }
 }

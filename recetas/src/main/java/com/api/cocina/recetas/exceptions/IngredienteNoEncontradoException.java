@@ -1,9 +1,10 @@
 package com.api.cocina.recetas.exceptions;
 
-public class IngredienteNoEncontradoException extends ApiException{
+import org.springframework.http.HttpStatus;
 
-    public IngredienteNoEncontradoException(String idRecurso) {
-        super(String.format("El ingrediente (id=%s) no fue encontrado", idRecurso));
+public class IngredienteNoEncontradoException extends ApiException {
+
+    public IngredienteNoEncontradoException(Long id) {
+        super("El ingrediente (id=" + id + ") no fue encontrado", HttpStatus.NOT_FOUND);
     }
-
 }

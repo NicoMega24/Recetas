@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
+                .status(ex.getStatus())
                 .body(error);
     }
 
