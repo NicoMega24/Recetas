@@ -36,7 +36,7 @@ public class RecetaServiceImpl implements RecetaService {
     
     @Override
     public RecetaDto obtenerReceta(Long id) {
-        Receta receta = recetaRepository.findById(id).orElseThrow(() -> new RecetaNoEncontradaException("Receta no encontrada"));
+        Receta receta = recetaRepository.findById(id).orElseThrow(() -> new RecetaNoEncontradaException(id));
         return recetaMapper.toDTO(receta);
     }
     
@@ -55,7 +55,7 @@ public class RecetaServiceImpl implements RecetaService {
     @Override
     public RecetaDto actualizarReceta(Long id, RecetaDto recetadto) {
         Receta existente = recetaRepository.findById(id)
-            .orElseThrow(() -> new RecetaNoEncontradaException("Receta no encontrada"));
+            .orElseThrow(() -> new RecetaNoEncontradaException(id));
 
         existente.setNombre(recetadto.nombre());
         existente.setDescripcion(recetadto.descripcion());
@@ -72,13 +72,13 @@ public class RecetaServiceImpl implements RecetaService {
     
     @Override
     public void eliminarReceta(Long id) {
-        Receta receta = recetaRepository.findById(id).orElseThrow(() -> new RecetaNoEncontradaException("Receta no encontrada"));
+        Receta receta = recetaRepository.findById(id).orElseThrow(() -> new RecetaNoEncontradaException(id));
         recetaRepository.delete(receta);
     }
 
     @Override
     public List<IngredienteDto> obtenerIngredientesDeReceta(Long id) {
-        Receta receta = recetaRepository.findById(id).orElseThrow(() -> new RecetaNoEncontradaException("Receta no encontrada"));
+        Receta receta = recetaRepository.findById(id).orElseThrow(() -> new RecetaNoEncontradaException(id));
 
         List<IngredienteDto> ingredientes = new ArrayList<>();
         receta.getPasos().forEach(paso -> {
@@ -102,7 +102,7 @@ public class RecetaServiceImpl implements RecetaService {
 
     @Override
     public Integer obtenerTiempoPreparacionDeReceta(Long id) {
-        Receta receta = recetaRepository.findById(id).orElseThrow(() -> new RecetaNoEncontradaException("Receta no encontrada"));
+        Receta receta = recetaRepository.findById(id).orElseThrow(() -> new RecetaNoEncontradaException(id));
 
         return receta.getPasos().stream().mapToInt(Pasos::getTiempoEstimado).sum();
     }

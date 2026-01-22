@@ -39,13 +39,13 @@ public class IngredienteServiceImpl implements IngredienteService {
     
     @Override
     public IngredienteDto obtenerIngrediente(Long id) {
-        Ingrediente ingrediente = ingredienteRepository.findById(id).orElseThrow(() -> new IngredienteNoEncontradoException("Ingrediente no encontrado"));
+        Ingrediente ingrediente = ingredienteRepository.findById(id).orElseThrow(() -> new IngredienteNoEncontradoException(id));
         return ingredienteMapper.toDTO(ingrediente);
     }
     
     @Override
     public IngredienteDto actualizarIngrediente(Long id, IngredienteDto ingredienteDto) {
-        Ingrediente existente = ingredienteRepository.findById(id).orElseThrow(() -> new IngredienteNoEncontradoException("Ingrediente no encontrado"));
+        Ingrediente existente = ingredienteRepository.findById(id).orElseThrow(() -> new IngredienteNoEncontradoException(id));
         existente.setNombre(ingredienteDto.nombre());
         existente.setDescripcion(ingredienteDto.descripcion());
         Ingrediente actualizado = ingredienteRepository.save(existente);
@@ -54,7 +54,7 @@ public class IngredienteServiceImpl implements IngredienteService {
     
     @Override
     public void eliminarIngrediente(Long id) {
-        Ingrediente ingrediente = ingredienteRepository.findById(id).orElseThrow(() -> new IngredienteNoEncontradoException("Ingrediente no encontrado"));
+        Ingrediente ingrediente = ingredienteRepository.findById(id).orElseThrow(() -> new IngredienteNoEncontradoException(id));
         ingredienteRepository.delete(ingrediente);
     }
 }

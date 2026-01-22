@@ -43,13 +43,13 @@ public class PasosServiceImpl implements PasosService {
     
     @Override
     public PasosDto obtenerPaso(Long id) {
-        Pasos pasos = pasosRepository.findById(id).orElseThrow(() -> new PasoNoEncontradoException("Paso no encontrado"));
+        Pasos pasos = pasosRepository.findById(id).orElseThrow(() -> new PasoNoEncontradoException(id));
         return pasosMapper.toDTO(pasos);
     }
     
     @Override
     public PasosDto actualizarPaso(Long id, PasosDto pasosDto) {
-        Pasos existente = pasosRepository.findById(id).orElseThrow(() -> new PasoNoEncontradoException("Paso no encontrado"));
+        Pasos existente = pasosRepository.findById(id).orElseThrow(() -> new PasoNoEncontradoException(id));
         existente.setDescripcion(pasosDto.descripcion());
         existente.setTiempoEstimado(pasosDto.tiempoEstimado());
         existente.setOpcional(pasosDto.opcional());
@@ -69,7 +69,7 @@ public class PasosServiceImpl implements PasosService {
     
     @Override
     public void eliminarPaso(Long id) {
-        Pasos pasos = pasosRepository.findById(id).orElseThrow(() -> new PasoNoEncontradoException("Paso no encontrado"));
+        Pasos pasos = pasosRepository.findById(id).orElseThrow(() -> new PasoNoEncontradoException(id));
         pasosRepository.delete(pasos);
     }
 }
