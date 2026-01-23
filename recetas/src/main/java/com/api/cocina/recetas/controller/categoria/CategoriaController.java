@@ -18,7 +18,7 @@ import com.api.cocina.recetas.service.categoria.CategoriaService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/categorias")
+@RequestMapping("/api/v1/categorias")
 @RequiredArgsConstructor
 public class CategoriaController {
 
