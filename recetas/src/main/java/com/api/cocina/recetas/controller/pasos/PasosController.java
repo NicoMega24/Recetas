@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.cocina.recetas.dto.steps.PasosDto;
+import com.api.cocina.recetas.dto.pasos.PasosDto;
 import com.api.cocina.recetas.service.pasos.PasosService;
 
 @RestController

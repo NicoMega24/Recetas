@@ -2,7 +2,7 @@ package com.api.cocina.recetas.service.pasos;
 
 import java.util.List;
 
-import com.api.cocina.recetas.dto.steps.PasosDto;
+import com.api.cocina.recetas.dto.pasos.PasosDto;
 
 public interface PasosService {
 

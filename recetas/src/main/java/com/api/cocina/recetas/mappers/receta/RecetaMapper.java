@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import com.api.cocina.recetas.domain.Receta;
-import com.api.cocina.recetas.dto.recipe.RecetaConPasosDto;
-import com.api.cocina.recetas.dto.recipe.RecetaDto;
+import com.api.cocina.recetas.dto.receta.RecetaConPasosDto;
+import com.api.cocina.recetas.dto.receta.RecetaDto;
 import com.api.cocina.recetas.mappers.pasos.PasosMapper;
 
 @Component

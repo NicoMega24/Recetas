@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import com.api.cocina.recetas.domain.Pasos;
-import com.api.cocina.recetas.dto.steps.PasosDto;
+import com.api.cocina.recetas.dto.pasos.PasosDto;
 
 @Component
 public class PasosMapper {

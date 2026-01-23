@@ -2,7 +2,7 @@ package com.api.cocina.recetas.service.ingrediente;
 
 import java.util.List;
 
-import com.api.cocina.recetas.dto.ingredient.IngredienteDto;
+import com.api.cocina.recetas.dto.ingrediente.IngredienteDto;
 
 public interface IngredienteService {
 

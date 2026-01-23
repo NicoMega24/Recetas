@@ -3,8 +3,8 @@ package com.api.cocina.recetas.mappers.ingrediente;
 import org.springframework.stereotype.Component;
 
 import com.api.cocina.recetas.domain.Ingrediente;
-import com.api.cocina.recetas.dto.ingredient.IngredienteDto;
-import com.api.cocina.recetas.dto.ingredient.IngredienteSimpleDto;
+import com.api.cocina.recetas.dto.ingrediente.IngredienteDto;
+import com.api.cocina.recetas.dto.ingrediente.IngredienteSimpleDto;
 
 @Component
 public class IngredienteMapper {

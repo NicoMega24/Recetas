@@ -3,9 +3,9 @@ package com.api.cocina.recetas.service.receta;
 import java.util.List;
 
 import com.api.cocina.recetas.domain.enums.Dificultad;
-import com.api.cocina.recetas.dto.ingredient.IngredienteSimpleDto;
-import com.api.cocina.recetas.dto.recipe.RecetaDto;
-import com.api.cocina.recetas.dto.recipe.RecetaResumenDto;
+import com.api.cocina.recetas.dto.ingrediente.IngredienteSimpleDto;
+import com.api.cocina.recetas.dto.receta.RecetaDto;
+import com.api.cocina.recetas.dto.receta.RecetaResumenDto;
 
 public interface RecetaService {
 

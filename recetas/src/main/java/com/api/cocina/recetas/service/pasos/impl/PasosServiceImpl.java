@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.api.cocina.recetas.domain.Ingrediente;
 import com.api.cocina.recetas.domain.Pasos;
-import com.api.cocina.recetas.dto.steps.PasosDto;
+import com.api.cocina.recetas.dto.pasos.PasosDto;
 import com.api.cocina.recetas.exceptions.PasoNoEncontradoException;
 import com.api.cocina.recetas.mappers.pasos.PasosMapper;
 import com.api.cocina.recetas.repository.pasos.PasosRepository;

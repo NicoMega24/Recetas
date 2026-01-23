@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.api.cocina.recetas.domain.Ingrediente;
-import com.api.cocina.recetas.dto.ingredient.IngredienteDto;
+import com.api.cocina.recetas.dto.ingrediente.IngredienteDto;
 import com.api.cocina.recetas.exceptions.IngredienteNoEncontradoException;
 import com.api.cocina.recetas.mappers.ingrediente.IngredienteMapper;
 import com.api.cocina.recetas.repository.ingrediente.IngredienteRepository;

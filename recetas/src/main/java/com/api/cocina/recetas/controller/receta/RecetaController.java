@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.cocina.recetas.domain.enums.Dificultad;
-import com.api.cocina.recetas.dto.ingredient.IngredienteSimpleDto;
-import com.api.cocina.recetas.dto.recipe.RecetaDto;
-import com.api.cocina.recetas.dto.recipe.RecetaResumenDto;
+import com.api.cocina.recetas.dto.ingrediente.IngredienteSimpleDto;
+import com.api.cocina.recetas.dto.receta.RecetaDto;
+import com.api.cocina.recetas.dto.receta.RecetaResumenDto;
 import com.api.cocina.recetas.service.receta.RecetaService;
 
 @RestController

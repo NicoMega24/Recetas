@@ -10,7 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.api.cocina.recetas.dto.errors.GenericError;
+import com.api.cocina.recetas.dto.errores.GenericError;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
