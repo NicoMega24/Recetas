@@ -1,4 +1,4 @@
-package com.api.cocina.recetas.dto.recipe;
+package com.api.cocina.recetas.dto.receta;
 
 import com.api.cocina.recetas.domain.enums.Dificultad;
 

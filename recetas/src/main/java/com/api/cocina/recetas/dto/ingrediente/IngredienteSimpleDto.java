@@ -1,4 +1,4 @@
-package com.api.cocina.recetas.dto.ingredient;
+package com.api.cocina.recetas.dto.ingrediente;
 
 public record IngredienteSimpleDto(
 
