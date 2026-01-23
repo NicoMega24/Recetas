@@ -5,9 +5,14 @@ import java.util.List;
 import com.api.cocina.recetas.dto.ingredient.IngredienteDto;
 
 public interface IngredienteService {
-    IngredienteDto crearIngrediente(IngredienteDto ingredienteDto);
-    List<IngredienteDto> listarIngredientes();
+
     IngredienteDto obtenerIngrediente(Long id);
-    IngredienteDto actualizarIngrediente(Long id, IngredienteDto ingredienteDto);
+
+    List<IngredienteDto> listarIngredientes();
+
+    IngredienteDto crearIngrediente(IngredienteDto dto);
+
+    IngredienteDto actualizarIngrediente(Long id, IngredienteDto dto);
+
     void eliminarIngrediente(Long id);
 }

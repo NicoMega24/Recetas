@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 public record PasosDto(
 
         Long id,
-        
+
         @NotBlank(message = "La descripción es obligatoria")
         String descripcion,
 
@@ -20,10 +20,8 @@ public record PasosDto(
         Boolean opcional,
 
         @NotNull(message = "La receta es obligatoria")
-        Long receta,
+        Long receta,   // ✅ correcto
 
         @NotEmpty(message = "Debe tener al menos un ingrediente")
-        List<Long> ingredientes
-        ) {
-
-}
+        List<Long> ingredientes // ✅ correcto
+) {}

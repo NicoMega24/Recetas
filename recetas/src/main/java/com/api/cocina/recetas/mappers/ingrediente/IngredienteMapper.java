@@ -4,15 +4,13 @@ import org.springframework.stereotype.Component;
 
 import com.api.cocina.recetas.domain.Ingrediente;
 import com.api.cocina.recetas.dto.ingredient.IngredienteDto;
+import com.api.cocina.recetas.dto.ingredient.IngredienteSimpleDto;
 
 @Component
 public class IngredienteMapper {
 
     public IngredienteDto toDTO(Ingrediente ingrediente) {
-        if (ingrediente == null) {
-            return null;
-        }
-
+        if (ingrediente == null) return null;
         return new IngredienteDto(
                 ingrediente.getId(),
                 ingrediente.getNombre(),
@@ -20,16 +18,20 @@ public class IngredienteMapper {
         );
     }
 
-    public Ingrediente toEntity(IngredienteDto dto) {
-        if (dto == null) {
-            return null;
-        }
+    public IngredienteSimpleDto toSimpleDTO(Ingrediente ingrediente) {
+        if (ingrediente == null) return null;
+        return new IngredienteSimpleDto(
+                ingrediente.getId(),
+                ingrediente.getNombre()
+        );
+    }
 
+    public Ingrediente toEntity(IngredienteDto dto) {
+        if (dto == null) return null;
         Ingrediente ingrediente = new Ingrediente();
         ingrediente.setId(dto.id());
         ingrediente.setNombre(dto.nombre());
         ingrediente.setDescripcion(dto.descripcion());
         return ingrediente;
     }
-
 }

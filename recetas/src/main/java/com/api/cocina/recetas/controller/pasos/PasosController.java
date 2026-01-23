@@ -28,8 +28,7 @@ public class PasosController {
 
     @PostMapping
     public ResponseEntity<PasosDto> crear(@RequestBody PasosDto dto) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(pasosService.crearPaso(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(pasosService.crearPaso(dto));
     }
 
     @GetMapping("/receta/{recetaId}")
@@ -43,9 +42,7 @@ public class PasosController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PasosDto> actualizar(
-            @PathVariable Long id,
-            @RequestBody PasosDto dto) {
+    public ResponseEntity<PasosDto> actualizar(@PathVariable Long id, @RequestBody PasosDto dto) {
         return ResponseEntity.ok(pasosService.actualizarPaso(id, dto));
     }
 

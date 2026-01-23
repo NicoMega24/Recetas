@@ -1,9 +1,9 @@
 package com.api.cocina.recetas.service.ingrediente.impl;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.cocina.recetas.domain.Ingrediente;
@@ -15,46 +15,53 @@ import com.api.cocina.recetas.service.ingrediente.IngredienteService;
 
 @Service
 public class IngredienteServiceImpl implements IngredienteService {
-    
-    private final IngredienteMapper ingredienteMapper;
+
     private final IngredienteRepository ingredienteRepository;
-    
-    @Autowired
-    public IngredienteServiceImpl(IngredienteMapper ingredienteMapper, IngredienteRepository ingredienteRepository) {
-        this.ingredienteMapper = ingredienteMapper;
+    private final IngredienteMapper ingredienteMapper;
+
+    public IngredienteServiceImpl(IngredienteRepository ingredienteRepository,
+                                  IngredienteMapper ingredienteMapper) {
         this.ingredienteRepository = ingredienteRepository;
+        this.ingredienteMapper = ingredienteMapper;
     }
-    
-    @Override
-    public IngredienteDto crearIngrediente(IngredienteDto ingredienteDto) {
-        Ingrediente ingrediente = ingredienteMapper.toEntity(ingredienteDto);
-        return ingredienteMapper.toDTO(ingredienteRepository.save(ingrediente));
-    }
-    
-    @Override
-    public List<IngredienteDto> listarIngredientes() {
-        List<Ingrediente> ingredientes = ingredienteRepository.findAll();
-        return ingredientes.stream().map(ingredienteMapper::toDTO).collect(Collectors.toList());
-    }
-    
+
     @Override
     public IngredienteDto obtenerIngrediente(Long id) {
-        Ingrediente ingrediente = ingredienteRepository.findById(id).orElseThrow(() -> new IngredienteNoEncontradoException(id));
+        Ingrediente ingrediente = ingredienteRepository.findById(id)
+                .orElseThrow(() -> new IngredienteNoEncontradoException(id));
         return ingredienteMapper.toDTO(ingrediente);
     }
-    
+
     @Override
-    public IngredienteDto actualizarIngrediente(Long id, IngredienteDto ingredienteDto) {
-        Ingrediente existente = ingredienteRepository.findById(id).orElseThrow(() -> new IngredienteNoEncontradoException(id));
-        existente.setNombre(ingredienteDto.nombre());
-        existente.setDescripcion(ingredienteDto.descripcion());
+    public List<IngredienteDto> listarIngredientes() {
+        return ingredienteRepository.findAll().stream()
+                .map(ingredienteMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public IngredienteDto crearIngrediente(IngredienteDto dto) {
+        Objects.requireNonNull(dto, "IngredienteDto no puede ser null");
+        Ingrediente ingrediente = ingredienteMapper.toEntity(dto);
+        return ingredienteMapper.toDTO(ingredienteRepository.save(ingrediente));
+    }
+
+    @Override
+    public IngredienteDto actualizarIngrediente(Long id, IngredienteDto dto) {
+        Ingrediente existente = ingredienteRepository.findById(id)
+                .orElseThrow(() -> new IngredienteNoEncontradoException(id));
+
+        existente.setNombre(Objects.requireNonNull(dto.nombre(), "Nombre no puede ser null"));
+        existente.setDescripcion(Objects.requireNonNull(dto.descripcion(), "Descripcion no puede ser null"));
+
         Ingrediente actualizado = ingredienteRepository.save(existente);
         return ingredienteMapper.toDTO(actualizado);
     }
-    
+
     @Override
     public void eliminarIngrediente(Long id) {
-        Ingrediente ingrediente = ingredienteRepository.findById(id).orElseThrow(() -> new IngredienteNoEncontradoException(id));
+        Ingrediente ingrediente = ingredienteRepository.findById(id)
+                .orElseThrow(() -> new IngredienteNoEncontradoException(id));
         ingredienteRepository.delete(ingrediente);
     }
 }

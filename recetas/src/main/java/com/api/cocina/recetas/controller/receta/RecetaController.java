@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.cocina.recetas.domain.enums.Dificultad;
-import com.api.cocina.recetas.dto.ingredient.IngredienteDto;
+import com.api.cocina.recetas.dto.ingredient.IngredienteSimpleDto;
 import com.api.cocina.recetas.dto.recipe.RecetaDto;
+import com.api.cocina.recetas.dto.recipe.RecetaResumenDto;
 import com.api.cocina.recetas.service.receta.RecetaService;
 
 @RestController
@@ -57,23 +58,31 @@ public class RecetaController {
         return ResponseEntity.noContent().build();
     }
 
+    // ✅ Endpoints de ingredientes ahora usan IngredienteSimpleDto
     @GetMapping("/{id}/ingredientes")
-    public ResponseEntity<List<IngredienteDto>> ingredientes(@PathVariable Long id) {
+    public ResponseEntity<List<IngredienteSimpleDto>> ingredientes(@PathVariable Long id) {
         return ResponseEntity.ok(recetaService.obtenerIngredientesDeReceta(id));
     }
 
     @GetMapping("/dificultad/{dificultad}")
-    public ResponseEntity<List<RecetaDto>> porDificultad(
-            @PathVariable Dificultad dificultad) {
-        return ResponseEntity.ok(
-                recetaService.listarRecetasPorDificultad(dificultad)
-        );
+    public ResponseEntity<List<RecetaDto>> porDificultad(@PathVariable Dificultad dificultad) {
+        return ResponseEntity.ok(recetaService.listarRecetasPorDificultad(dificultad));
     }
 
     @GetMapping("/{id}/tiempo-preparacion")
     public ResponseEntity<Integer> tiempoPreparacion(@PathVariable Long id) {
-        return ResponseEntity.ok(
-                recetaService.obtenerTiempoPreparacionDeReceta(id)
-        );
+        return ResponseEntity.ok(recetaService.obtenerTiempoPreparacionDeReceta(id));
+    }
+
+    @GetMapping("/categoria/{categoriaId}")
+    public ResponseEntity<List<RecetaResumenDto>> listarPorCategoria(@PathVariable Long categoriaId) {
+        return ResponseEntity.ok(recetaService.listarRecetasPorCategoria(categoriaId));
+    }
+
+    @GetMapping("/{recetaId}/ingredientes/{pasoId}")
+    public ResponseEntity<List<IngredienteSimpleDto>> ingredientesPorPaso(
+            @PathVariable Long recetaId,
+            @PathVariable Long pasoId) {
+        return ResponseEntity.ok(recetaService.obtenerIngredientesDePaso(recetaId, pasoId));
     }
 }

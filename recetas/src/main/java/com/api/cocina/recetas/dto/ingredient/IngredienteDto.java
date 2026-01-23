@@ -4,12 +4,11 @@ import jakarta.validation.constraints.NotBlank;
 
 public record IngredienteDto(
 
-        Long id,
+    Long id,
 
-        @NotBlank(message = "El nombre es obligatorio")
-        String nombre,
+    @NotBlank(message = "El nombre es obligatorio")
+    String nombre,
 
-        @NotBlank(message = "La descripción es obligatoria")
-        String descripcion
-        ) {
-}
+    @NotBlank(message = "La descripción es obligatoria")
+    String descripcion
+) {}

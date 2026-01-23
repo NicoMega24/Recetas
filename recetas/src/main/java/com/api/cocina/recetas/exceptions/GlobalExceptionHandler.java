@@ -1,6 +1,7 @@
 package com.api.cocina.recetas.exceptions;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -8,50 +9,63 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 
 import com.api.cocina.recetas.dto.errors.GenericError;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ApiException.class)
-    public ResponseEntity<GenericError> handleApiException(ApiException ex, WebRequest request) {
-
+    @ExceptionHandler(RecetaNoEncontradaException.class)
+    public ResponseEntity<GenericError> handleRecetaNotFound(RecetaNoEncontradaException ex) {
         GenericError error = new GenericError(
                 ex.getMessage(),
                 null
         );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
 
-        return ResponseEntity
-                .status(ex.getStatus())
-                .body(error);
+    @ExceptionHandler(PasoNoEncontradoException.class)
+    public ResponseEntity<GenericError> handlePasoNotFound(PasoNoEncontradoException ex) {
+        GenericError error = new GenericError(
+                ex.getMessage(),
+                null
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(IngredienteNoEncontradoException.class)
+    public ResponseEntity<GenericError> handleIngredienteNotFound(IngredienteNoEncontradoException ex) {
+        GenericError error = new GenericError(
+                ex.getMessage(),
+                null
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<GenericError> handleValidation(MethodArgumentNotValidException ex) {
-
-        var errorList = ex.getFieldErrors().stream()
-                .map(campoError -> {
+        List<Map<String, String>> errores = ex.getFieldErrors().stream()
+                .map(fieldError -> {
                     Map<String, String> errorMap = new HashMap<>();
-                    errorMap.put(campoError.getField(), campoError.getDefaultMessage());
+                    errorMap.put(fieldError.getField(), fieldError.getDefaultMessage());
                     return errorMap;
-                }).toList();
+                })
+                .toList();
 
-        GenericError erroresDto = new GenericError(
+        GenericError errorResponse = new GenericError(
                 "Error de validación",
-                errorList
+                errores
         );
 
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(erroresDto);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<GenericError> handleGeneral(Exception ex) {
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new GenericError("Error interno del servidor", null));
+        GenericError error = new GenericError(
+                "Error interno del servidor",
+                null
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 }

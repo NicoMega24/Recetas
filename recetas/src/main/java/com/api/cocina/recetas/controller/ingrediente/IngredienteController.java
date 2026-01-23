@@ -26,12 +26,6 @@ public class IngredienteController {
         this.ingredienteService = ingredienteService;
     }
 
-    @PostMapping
-    public ResponseEntity<IngredienteDto> crear(@RequestBody IngredienteDto dto) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ingredienteService.crearIngrediente(dto));
-    }
-
     @GetMapping
     public ResponseEntity<List<IngredienteDto>> listar() {
         return ResponseEntity.ok(ingredienteService.listarIngredientes());
@@ -42,10 +36,15 @@ public class IngredienteController {
         return ResponseEntity.ok(ingredienteService.obtenerIngrediente(id));
     }
 
+    @PostMapping
+    public ResponseEntity<IngredienteDto> crear(@RequestBody IngredienteDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ingredienteService.crearIngrediente(dto));
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<IngredienteDto> actualizar(
-            @PathVariable Long id,
-            @RequestBody IngredienteDto dto) {
+    public ResponseEntity<IngredienteDto> actualizar(@PathVariable Long id,
+                                                     @RequestBody IngredienteDto dto) {
         return ResponseEntity.ok(ingredienteService.actualizarIngrediente(id, dto));
     }
 
