@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.api.cocina.recetas.domain.Categoria;
 import com.api.cocina.recetas.dto.categoria.CategoriaDto;
+import com.api.cocina.recetas.exceptions.ResourceNotFoundException;
 import com.api.cocina.recetas.mappers.categoria.CategoriaMapper;
 import com.api.cocina.recetas.repository.categoria.CategoriaRepository;
 import com.api.cocina.recetas.service.categoria.CategoriaService;
