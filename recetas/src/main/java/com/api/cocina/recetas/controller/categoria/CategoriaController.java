@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.cocina.recetas.dto.categoria.CategoriaDto;
 import com.api.cocina.recetas.service.categoria.CategoriaService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -25,7 +26,7 @@ public class CategoriaController {
     private final CategoriaService service;
 
     @PostMapping
-    public ResponseEntity<CategoriaDto> crear(@RequestBody CategoriaDto dto) {
+    public ResponseEntity<CategoriaDto> crear(@Valid @RequestBody CategoriaDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(dto));
     }
 
