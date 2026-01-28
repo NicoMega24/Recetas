@@ -21,6 +21,6 @@ public record RecetaDto(
     Dificultad dificultad,
 
     @NotNull(message = "La categoría es obligatoria")
-    Long categoria
+    Long categoriaId
 
 ) {}

@@ -77,4 +77,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<GenericError> handleApiException(ApiException ex) {
+        return ResponseEntity
+                .status(ex.getStatus())
+                .body(new GenericError(ex.getMessage(), null));
+    }
 }

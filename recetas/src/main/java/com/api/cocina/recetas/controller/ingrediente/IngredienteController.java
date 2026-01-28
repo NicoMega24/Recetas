@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.cocina.recetas.dto.ingrediente.IngredienteDto;
 import com.api.cocina.recetas.service.ingrediente.IngredienteService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/ingredientes")
 public class IngredienteController {
@@ -37,7 +39,7 @@ public class IngredienteController {
     }
 
     @PostMapping
-    public ResponseEntity<IngredienteDto> crear(@RequestBody IngredienteDto dto) {
+    public ResponseEntity<IngredienteDto> crear(@Valid@RequestBody IngredienteDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ingredienteService.crearIngrediente(dto));
     }

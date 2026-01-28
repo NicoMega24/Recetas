@@ -1,6 +1,6 @@
 package com.api.cocina.recetas.mappers.pasos;
 
-import java.util.stream.Collectors;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -10,8 +10,13 @@ import com.api.cocina.recetas.dto.pasos.PasosDto;
 @Component
 public class PasosMapper {
 
-    public PasosDto toDTO(Pasos pasos) {
+    public PasosDto toDto(Pasos pasos) {
         if (pasos == null) return null;
+
+        List<Long> ingredientesIds = pasos.getIngredientes()
+                .stream()
+                .map(ingrediente -> ingrediente.getId())
+                .toList();
 
         return new PasosDto(
                 pasos.getId(),
@@ -19,22 +24,7 @@ public class PasosMapper {
                 pasos.getTiempoEstimado(),
                 pasos.getOpcional(),
                 pasos.getReceta() != null ? pasos.getReceta().getId() : null,
-                pasos.getIngredientes() != null
-                        ? pasos.getIngredientes().stream()
-                                .map(i -> i.getId())
-                                .collect(Collectors.toList())
-                        : null
+                ingredientesIds
         );
-    }
-
-    public Pasos toEntity(PasosDto dto) {
-        if (dto == null) return null;
-
-        Pasos pasos = new Pasos();
-        pasos.setId(dto.id());
-        pasos.setDescripcion(dto.descripcion());
-        pasos.setTiempoEstimado(dto.tiempoEstimado());
-        pasos.setOpcional(dto.opcional());
-        return pasos;
     }
 }

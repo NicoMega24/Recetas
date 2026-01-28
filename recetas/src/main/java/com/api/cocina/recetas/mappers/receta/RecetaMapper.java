@@ -1,12 +1,13 @@
 package com.api.cocina.recetas.mappers.receta;
 
-import java.util.stream.Collectors;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
 import com.api.cocina.recetas.domain.Receta;
 import com.api.cocina.recetas.dto.receta.RecetaConPasosDto;
 import com.api.cocina.recetas.dto.receta.RecetaDto;
+import com.api.cocina.recetas.dto.receta.RecetaResumenDto;
 import com.api.cocina.recetas.mappers.pasos.PasosMapper;
 
 @Component
@@ -18,40 +19,46 @@ public class RecetaMapper {
         this.pasosMapper = pasosMapper;
     }
 
-    // DTO simple (sin pasos)
-    public RecetaDto toDTO(Receta receta) {
+    public RecetaDto toDto(Receta receta) {
+        if (receta == null) return null;
+
         return new RecetaDto(
-            receta.getId(),
-            receta.getNombre(),
-            receta.getDescripcion(),
-            receta.getDificultad(),
-            receta.getCategoria() != null ? receta.getCategoria().getId() : null
+                receta.getId(),
+                receta.getNombre(),
+                receta.getDescripcion(),
+                receta.getDificultad(),
+                receta.getCategoria() != null ? receta.getCategoria().getId() : null
         );
     }
 
-    // Para crear/actualizar entidad desde DTO
-    public Receta toEntity(RecetaDto dto) {
-        Receta receta = new Receta();
-        receta.setId(dto.id());
-        receta.setNombre(dto.nombre());
-        receta.setDescripcion(dto.descripcion());
-        receta.setDificultad(dto.dificultad());
-        // La categoría se asigna en el service con un objeto Categoria con solo ID
-        return receta;
+    public RecetaResumenDto toResumenDto(Receta receta, Integer tiempoTotal) {
+        if (receta == null) return null;
+
+        return new RecetaResumenDto(
+                receta.getId(),
+                receta.getNombre(),
+                receta.getDescripcion(),
+                receta.getDificultad(),
+                tiempoTotal
+        );
     }
 
-    // DTO completo con pasos e ingredientes
-    public RecetaConPasosDto toRecetaConPasosDTO(Receta receta) {
+    public RecetaConPasosDto toConPasosDto(Receta receta) {
+        if (receta == null) return null;
+
+        List pasosDto = receta.getPasos()
+                .stream()
+                .map(pasosMapper::toDto)
+                .toList();
+
         return new RecetaConPasosDto(
-            receta.getId(),
-            receta.getNombre(),
-            receta.getDescripcion(),
-            receta.getDificultad(),
-            receta.getCategoria() != null ? receta.getCategoria().getId() : null,
-            receta.getCategoria() != null ? receta.getCategoria().getNombre() : null,
-            receta.getPasos().stream()
-                   .map(pasosMapper::toDTO)
-                   .collect(Collectors.toList())
+                receta.getId(),
+                receta.getNombre(),
+                receta.getDescripcion(),
+                receta.getDificultad(),
+                receta.getCategoria() != null ? receta.getCategoria().getId() : null,
+                receta.getCategoria() != null ? receta.getCategoria().getNombre() : null,
+                pasosDto
         );
     }
 }

@@ -40,6 +40,7 @@ public class Receta {
     private String descripcion;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "dificultad")
     private Dificultad dificultad;
 
     @ManyToOne

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.api.cocina.recetas.domain.Ingrediente;
 import com.api.cocina.recetas.dto.ingrediente.IngredienteDto;
+import com.api.cocina.recetas.exceptions.IngredienteEnUsoException;
 import com.api.cocina.recetas.exceptions.IngredienteNoEncontradoException;
 import com.api.cocina.recetas.mappers.ingrediente.IngredienteMapper;
 import com.api.cocina.recetas.repository.ingrediente.IngredienteRepository;
@@ -29,13 +30,13 @@ public class IngredienteServiceImpl implements IngredienteService {
     public IngredienteDto obtenerIngrediente(Long id) {
         Ingrediente ingrediente = ingredienteRepository.findById(id)
                 .orElseThrow(() -> new IngredienteNoEncontradoException(id));
-        return ingredienteMapper.toDTO(ingrediente);
+        return ingredienteMapper.toDto(ingrediente);
     }
 
     @Override
     public List<IngredienteDto> listarIngredientes() {
         return ingredienteRepository.findAll().stream()
-                .map(ingredienteMapper::toDTO)
+                .map(ingredienteMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -43,7 +44,7 @@ public class IngredienteServiceImpl implements IngredienteService {
     public IngredienteDto crearIngrediente(IngredienteDto dto) {
         Objects.requireNonNull(dto, "IngredienteDto no puede ser null");
         Ingrediente ingrediente = ingredienteMapper.toEntity(dto);
-        return ingredienteMapper.toDTO(ingredienteRepository.save(ingrediente));
+        return ingredienteMapper.toDto(ingredienteRepository.save(ingrediente));
     }
 
     @Override
@@ -55,13 +56,19 @@ public class IngredienteServiceImpl implements IngredienteService {
         existente.setDescripcion(Objects.requireNonNull(dto.descripcion(), "Descripcion no puede ser null"));
 
         Ingrediente actualizado = ingredienteRepository.save(existente);
-        return ingredienteMapper.toDTO(actualizado);
+        return ingredienteMapper.toDto(actualizado);
     }
 
     @Override
     public void eliminarIngrediente(Long id) {
         Ingrediente ingrediente = ingredienteRepository.findById(id)
                 .orElseThrow(() -> new IngredienteNoEncontradoException(id));
+
+        if (!ingrediente.getPasos().isEmpty()) {
+            throw new IngredienteEnUsoException(id);
+        }
+
         ingredienteRepository.delete(ingrediente);
     }
+
 }

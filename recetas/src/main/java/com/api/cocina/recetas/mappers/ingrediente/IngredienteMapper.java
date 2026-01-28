@@ -9,8 +9,9 @@ import com.api.cocina.recetas.dto.ingrediente.IngredienteSimpleDto;
 @Component
 public class IngredienteMapper {
 
-    public IngredienteDto toDTO(Ingrediente ingrediente) {
+    public IngredienteDto toDto(Ingrediente ingrediente) {
         if (ingrediente == null) return null;
+
         return new IngredienteDto(
                 ingrediente.getId(),
                 ingrediente.getNombre(),
@@ -18,8 +19,9 @@ public class IngredienteMapper {
         );
     }
 
-    public IngredienteSimpleDto toSimpleDTO(Ingrediente ingrediente) {
+    public IngredienteSimpleDto toSimpleDto(Ingrediente ingrediente) {
         if (ingrediente == null) return null;
+
         return new IngredienteSimpleDto(
                 ingrediente.getId(),
                 ingrediente.getNombre()
@@ -28,6 +30,7 @@ public class IngredienteMapper {
 
     public Ingrediente toEntity(IngredienteDto dto) {
         if (dto == null) return null;
+
         Ingrediente ingrediente = new Ingrediente();
         ingrediente.setId(dto.id());
         ingrediente.setNombre(dto.nombre());
